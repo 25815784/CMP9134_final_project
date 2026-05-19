@@ -1,6 +1,12 @@
-public interface IRobotClient
+using System.Threading.Tasks;
+using RobotDashboard.DTOs;
+
+namespace RobotDashboard.Services
 {
-    Task<RobotStatusDto> GetStatusAsync();
-    Task<bool> MoveAsync(int x, int y);
-    Task<bool> ResetAsync();
+    public interface IRobotClient
+    {
+        Task<RobotStatusDto> GetStatusAsync();
+        Task<bool> MoveAsync(int x, int y);
+        Task<bool> ResetAsync();
+    }
 }
