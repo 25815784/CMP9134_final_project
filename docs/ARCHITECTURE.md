@@ -2,47 +2,63 @@
 
 ## Architectural Pattern
 
-The Robot Management System follows a Layered Architecture combined with MVC principles. This approach separates concerns into distinct layers to improve maintainability, scalability, and testability.
+The Robot Management System follows a Layered Architecture implemented using ASP.NET Core Web API. The architecture separates responsibilities into distinct layers to ensure maintainability, security, and scalability.
 
-The system consists of:
+The system is composed of:
 
-- Presentation Layer (Web Dashboard / UI)
-- Application Layer (Controllers & Business Logic)
-- Data Access Layer (Database + Repository Pattern)
-- External Integration Layer (Robot REST API Client)
+- Presentation Layer (Swagger / Future Web Dashboard)
+- API Layer (Controllers)
+- Business Logic Layer (Services)
+- Data Access Layer (Entity Framework Core + SQL Server)
+- External Integration Layer (Virtual Robot REST API Client)
 
-This structure ensures loose coupling between components and enables independent evolution of the UI, backend logic, and external robot communication.
+This separation ensures loose coupling between authentication, command handling, logging, and robot communication.
 
 ---
 
-## Architectural Layer Responsibilities
+## Layer Responsibilities
 
 ### 1. Presentation Layer
-Responsible for rendering the user interface and capturing user input. It communicates with the backend via HTTPS using JWT-secured requests.
+Provides API documentation and testing interface via Swagger. Future UI clients communicate using HTTPS and JWT tokens.
 
-### 2. Application Layer
-Contains Controllers and Service classes. It processes HTTP requests, validates JWT tokens, enforces Role-Based Access Control (RBAC), and orchestrates communication between services.
+### 2. API Layer (Controllers)
+Handles HTTP requests and responses. Responsible for:
+- Token validation
+- Role-Based Access Control (RBAC)
+- Routing commands to services
 
-### 3. Data Access Layer
-Handles persistent storage of mission logs and user data using SQL Server. This layer abstracts database operations from business logic.
+### 3. Business Logic Layer (Services)
+Implements core application logic:
+- Authentication
+- Mission command validation
+- Robot communication coordination
+- Audit logging
 
-### 4. External Integration Layer
-Implements a dedicated Robot API Client that communicates with the Virtual Robot container via REST calls.
+### 4. Data Access Layer
+Uses Entity Framework Core to interact with SQL Server for:
+- User storage
+- Mission logs
+- Audit trails
+
+### 5. External Integration Layer
+Encapsulates communication with the Virtual Robot Docker container via REST API.
 
 ---
 
-## Architecture Diagram
+## Architectural Diagram
 
 ```mermaid
-flowchart TB
+flowchart LR
 
-UI[Presentation Layer\n(Web Dashboard)]
-Controller[Application Layer\n(Controllers & Services)]
-DAL[Data Access Layer\n(Database Access)]
-RobotClient[External Integration Layer\n(Robot API Client)]
-Robot[(Virtual Robot\nDocker Container)]
+Client[Swagger / Web Client]
+Controller[API Controllers]
+Service[Business Logic Services]
+DAL[EF Core + SQL Server]
+RobotClient[Robot API Client]
+Robot[(Virtual Robot Container)]
 
-UI --> Controller
-Controller --> DAL
-Controller --> RobotClient
+Client --> Controller
+Controller --> Service
+Service --> DAL
+Service --> RobotClient
 RobotClient --> Robot
