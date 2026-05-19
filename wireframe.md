@@ -49,7 +49,7 @@ Primary action buttons ("Move" and "Emergency Stop") are large and centrally pos
 
 The Emergency Stop button is visually distinct and easily reachable to support safety-critical operation.
 
-# Task 2 – Heuristic Evaluation
+# Heuristic Evaluation
 
 ## Peer Evaluation Summary
 
