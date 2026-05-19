@@ -14,6 +14,17 @@ The system is composed of:
 
 This separation ensures loose coupling between authentication, command handling, logging, and robot communication.
 
+## MVC Mapping
+
+Although the system follows a layered architecture, it also aligns with the MVC pattern implemented by ASP.NET Core.
+
+- Model:
+  Domain entities (MissionLog, User, RobotStatus) and business services.
+- View:
+  Swagger UI (current API testing interface) and future web dashboard clients.
+- Controller:
+  ASP.NET API Controllers handling HTTP requests and routing commands.
+  
 ---
 
 ## Layer Responsibilities
