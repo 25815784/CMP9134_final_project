@@ -35,7 +35,7 @@ User[Commander / Viewer]
 UI[Web Dashboard]
 API[Backend API]
 DB[(Database)]
-Robot[Virtual Robot<br>(Docker Container)]
+Robot["Virtual Robot (Docker Container)"]
 
 User --> UI
 UI -->|HTTPS + JWT| API
