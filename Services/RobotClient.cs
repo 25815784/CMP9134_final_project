@@ -1,37 +1,50 @@
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using RobotDashboard.DTOs;
 
-public class RobotClient : IRobotClient
+namespace RobotDashboard.Services
 {
-    private readonly HttpClient _httpClient;
-
-    public RobotClient(HttpClient httpClient)
+    public class RobotClient : IRobotClient
     {
-        _httpClient = httpClient;
-    }
+        private readonly HttpClient _httpClient;
 
-    public async Task<string> GetStatusAsync()
-    {
-        var response = await _httpClient.GetAsync("/status");
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
-    }
+        public RobotClient(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
 
-    public async Task<bool> MoveAsync(int x, int y)
-    {
-        var content = new StringContent(
-            JsonSerializer.Serialize(new { x, y }),
-            Encoding.UTF8,
-            "application/json");
+        public async Task<RobotStatusDto> GetStatusAsync()
+        {
+            var response = await _httpClient.GetAsync("/status");
+            response.EnsureSuccessStatusCode();
 
-        var response = await _httpClient.PostAsync("/move", content);
-        return response.IsSuccessStatusCode;
-    }
+            var json = await response.Content.ReadAsStringAsync();
 
-    public async Task<bool> ResetAsync()
-    {
-        var response = await _httpClient.PostAsync("/reset", null);
-        return response.IsSuccessStatusCode;
+            return JsonSerializer.Deserialize<RobotStatusDto>(
+                json,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }
+            )!;
+        }
+
+        public async Task<bool> MoveAsync(int x, int y)
+        {
+            var content = new StringContent(
+                JsonSerializer.Serialize(new { x, y }),
+                Encoding.UTF8,
+                "application/json");
+
+            var response = await _httpClient.PostAsync("/move", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> ResetAsync()
+        {
+            var response = await _httpClient.PostAsync("/reset", null);
+            return response.IsSuccessStatusCode;
+        }
     }
 }
