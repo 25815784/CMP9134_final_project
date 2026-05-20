@@ -4,6 +4,8 @@ services:
     working_dir: /src
     volumes:
       - .:/src
+    environment:
+      - FF_ADVANCED_STATS=true
     command: dotnet test
     depends_on:
       - api
