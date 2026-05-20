@@ -1,4 +1,5 @@
 namespace RobotDashboard.DTOs;
+
 public class RobotStatusDto
 {
     public string? Id { get; set; }
