@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RobotDashboard")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f20baa310c44ddf4f35a95cca7634c7e63fdccc1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21aa9ae103e30750cfb6b5ff055d448f9059ec5f")]
 [assembly: System.Reflection.AssemblyProductAttribute("RobotDashboard")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RobotDashboard")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

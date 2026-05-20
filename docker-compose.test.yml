@@ -1,0 +1,15 @@
+services:
+  test-runner:
+    image: mcr.microsoft.com/dotnet/sdk:9.0
+    working_dir: /src
+    volumes:
+      - .:/src
+    command: dotnet test
+    depends_on:
+      - api
+    networks:
+      - robot-network
+
+networks:
+  robot-network:
+    driver: bridge
