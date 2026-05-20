@@ -11,6 +11,7 @@ services:
     environment:
       - ASPNETCORE_URLS=http://+:8080
       - RobotSimulator__BaseUrl=http://robot:5000
+      - FF_ADVANCED_STATS=true
     depends_on:
       - robot
     networks:
