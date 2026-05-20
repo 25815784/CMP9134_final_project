@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to container
 builder.Services.AddControllers();
 
-// Register HttpClient using RobotSimulator:BaseUrl from docker-compose
+// Register Robot client
 builder.Services.AddHttpClient<IRobotClient, RobotClient>((sp, client) =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();
@@ -21,12 +21,15 @@ builder.Services.AddHttpClient<IRobotClient, RobotClient>((sp, client) =>
     client.BaseAddress = new Uri(baseUrl);
 });
 
+// Register Mission Statistics service
+builder.Services.AddScoped<IMissionStatsService, MissionStatsService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// ✅ Always enable Swagger (works inside Docker Production mode)
+// Always enable Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -34,4 +37,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
 public partial class Program { }

@@ -8,7 +8,7 @@ using RobotDashboard.DTOs;
 
 namespace RobotDashboard.Tests
 {
-    public class RobotIntegrationTests 
+    public class RobotIntegrationTests
         : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
