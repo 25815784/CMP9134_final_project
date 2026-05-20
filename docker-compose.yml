@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./RobotDashboard
+      dockerfile: Dockerfile
+    container_name: robotdashboard-api
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - RobotSimulator__BaseUrl=http://robot:5000
+    depends_on:
+      - robot
+    networks:
+      - robot-network
+
+  robot:
+    image: ghcr.io/francescodelduchetto/cmp9134_2526_robotsim:latest
+    container_name: virtual-robot
+    ports:
+      - "5000:5000"
+    networks:
+      - robot-network
+
+networks:
+  robot-network:
+    driver: bridge
