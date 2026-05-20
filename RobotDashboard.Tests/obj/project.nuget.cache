@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "xFsxvbh3f+U=",
+  "dgSpecHash": "5VRxlmo3s6U=",
   "success": true,
   "projectFilePath": "C:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard.Tests\\RobotDashboard.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Christopher Oladipo\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
-    "C:\\Users\\Christopher Oladipo\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
+    "C:\\Users\\Christopher Oladipo\\.nuget\\packages\\coverlet.collector\\10.0.1\\coverlet.collector.10.0.1.nupkg.sha512",
     "C:\\Users\\Christopher Oladipo\\.nuget\\packages\\microsoft.aspnetcore.mvc.testing\\9.0.0\\microsoft.aspnetcore.mvc.testing.9.0.0.nupkg.sha512",
     "C:\\Users\\Christopher Oladipo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.9\\microsoft.aspnetcore.openapi.9.0.9.nupkg.sha512",
     "C:\\Users\\Christopher Oladipo\\.nuget\\packages\\microsoft.aspnetcore.testhost\\9.0.0\\microsoft.aspnetcore.testhost.9.0.0.nupkg.sha512",
