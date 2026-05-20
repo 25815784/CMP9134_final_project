@@ -20,10 +20,10 @@ jobs:
         dotnet-version: '9.0.x'
 
     - name: Restore Dependencies
-      run: dotnet restore CMP9134_FINAL_PROJECT.sln
+      run: dotnet restore CMP9134_final_project/CMP9134_FINAL_PROJECT.sln
 
     - name: Build Solution
-      run: dotnet build CMP9134_FINAL_PROJECT.sln --no-restore
+      run: dotnet build CMP9134_final_project/CMP9134_FINAL_PROJECT.sln --no-restore
 
     - name: Run Tests
-      run: dotnet test CMP9134_FINAL_PROJECT.sln --no-build --verbosity normal
+      run: dotnet test CMP9134_final_project/CMP9134_FINAL_PROJECT.sln --no-build --verbosity normal
