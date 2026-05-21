@@ -20,7 +20,7 @@ namespace RobotDashboard.Tests
         {
             _client = factory.WithWebHostBuilder(builder =>
             {
-                
+
                 builder.UseEnvironment("Testing");
 
                 builder.ConfigureServices(services =>
@@ -43,7 +43,7 @@ namespace RobotDashboard.Tests
         }
     }
 
-    
+
     public class FakeRobotClient : IRobotClient
     {
         public Task<RobotStatusDto> GetStatusAsync()
