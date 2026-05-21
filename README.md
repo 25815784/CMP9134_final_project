@@ -75,6 +75,10 @@ All system diagrams are located in the `/docs` folder:
 
 ---
 
+## HOW TO ACCESS DASHBOARD
+- CMP9134_final_project\RobotDashboard\wwwroot\dashboard.html"
+
+
 ## Author
 
 Student ID: 25815784  
