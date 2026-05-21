@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using RobotDashboard.Data;
 using RobotDashboard.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +26,10 @@ builder.Services.AddHttpClient<IRobotClient, RobotClient>((sp, client) =>
 // Register Mission Statistics service
 builder.Services.AddScoped<IMissionStatsService, MissionStatsService>();
 
+// Register Database Context
+builder.Services.AddDbContext<RobotDashboardContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -39,6 +45,13 @@ app.UseStaticFiles();
 
 app.UseAuthorization();
 app.MapControllers();
+
+// Automatically apply database migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<RobotDashboardContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
 

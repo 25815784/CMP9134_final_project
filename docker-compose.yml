@@ -12,8 +12,10 @@ services:
       - ASPNETCORE_URLS=http://+:8080
       - RobotSimulator__BaseUrl=http://robot:5000
       - FF_ADVANCED_STATS=true
+      - ConnectionStrings__DefaultConnection=Server=sql-server;Database=RobotAuditDb;User Id=sa;Password=YourStrong!Password;TrustServerCertificate=True;
     depends_on:
       - robot
+      - sql-server
     networks:
       - robot-network
 
@@ -22,6 +24,17 @@ services:
     container_name: virtual-robot
     ports:
       - "5000:5000"
+    networks:
+      - robot-network
+
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-server
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong!Password
+    ports:
+      - "1433:1433"
     networks:
       - robot-network
 

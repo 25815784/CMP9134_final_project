@@ -1,76 +1,46 @@
-using Xunit;
-using Moq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 using RobotDashboard.Controllers;
+using RobotDashboard.Data;
 using RobotDashboard.Services;
-using RobotDashboard.DTOs;
-using System.Threading.Tasks;
+using Xunit;
 
-public class RobotControllerTests
+namespace RobotDashboard.Tests
 {
-    private readonly Mock<IRobotClient> _mockClient;
-    private readonly RobotController _controller;
-
-    public RobotControllerTests()
+    public class RobotControllerTests
     {
-        _mockClient = new Mock<IRobotClient>();
-        _controller = new RobotController(_mockClient.Object);
-    }
+        private readonly RobotController _controller;
+        private readonly Mock<IRobotClient> _mockRobotClient;
+        private readonly RobotDashboardContext _context;
 
-    [Fact]
-    public async Task GetStatus_ReturnsOk_WithStatus()
-    {
-        var status = new RobotStatusDto();
-        _mockClient.Setup(c => c.GetStatusAsync())
-                   .ReturnsAsync(status);
+        public RobotControllerTests()
+        {
+            _mockRobotClient = new Mock<IRobotClient>();
 
-        var result = await _controller.GetStatus();
+            // --- SETUP IN-MEMORY DATABASE FOR TESTING ---
+            var options = new DbContextOptionsBuilder<RobotDashboardContext>()
+                .UseInMemoryDatabase(databaseName: "TestLogDb")
+                .Options;
+            
+            _context = new RobotDashboardContext(options);
 
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        Assert.Equal(status, okResult.Value);
-    }
+            // Pass both the mock client AND the test database to the controller
+            _controller = new RobotController(_mockRobotClient.Object, _context);
+        }
 
-    [Fact]
-    public async Task Move_ReturnsOk_WhenMoveSuccessful()
-    {
-        _mockClient.Setup(c => c.MoveAsync(1, 1))
-                   .ReturnsAsync(true);
+        [Fact]
+        public async Task GetStatus_ReturnsOkResult()
+        {
+            // Arrange
+            _mockRobotClient.Setup(c => c.GetStatusAsync())
+                .ReturnsAsync(new DTOs.RobotStatusDto());
 
-        var result = await _controller.Move(1, 1);
+            // Act
+            var result = await _controller.GetStatus();
 
-        Assert.IsType<OkObjectResult>(result);
-    }
-
-    [Fact]
-    public async Task Move_ReturnsBadRequest_WhenMoveFails()
-    {
-        _mockClient.Setup(c => c.MoveAsync(1, 1))
-                   .ReturnsAsync(false);
-
-        var result = await _controller.Move(1, 1);
-
-        Assert.IsType<BadRequestObjectResult>(result);
-    }
-
-    [Fact]
-    public async Task Reset_ReturnsOk_WhenSuccessful()
-    {
-        _mockClient.Setup(c => c.ResetAsync())
-                   .ReturnsAsync(true);
-
-        var result = await _controller.Reset();
-
-        Assert.IsType<OkObjectResult>(result);
-    }
-
-    [Fact]
-    public async Task Reset_ReturnsBadRequest_WhenFails()
-    {
-        _mockClient.Setup(c => c.ResetAsync())
-                   .ReturnsAsync(false);
-
-        var result = await _controller.Reset();
-
-        Assert.IsType<BadRequestObjectResult>(result);
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
     }
 }

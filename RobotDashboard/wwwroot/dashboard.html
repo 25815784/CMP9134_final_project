@@ -105,9 +105,7 @@
     let ws = null;
 
     function log(msg) {
-        const box = document.getElementById("logBox");
-        box.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
-        box.scrollTop = box.scrollHeight;
+
     }
 
     function showMsg(msg, type) {
@@ -130,10 +128,33 @@
         if (tx < 0 || tx > 20 || ty < 0 || ty > 20) return showMsg("Out of bounds!", "danger");
 
         try {
-            const res = await fetch(`/api/Robot/move?x=${tx}&y=${ty}`, { method: 'POST' });
-            if (res.ok) log(`Moved to ${tx}, ${ty}`);
+            
+            const res = await fetch(`/api/Robot/move?x=${tx}&y=${ty}`, { 
+                method: 'POST',
+                headers: { 'X-User-Role': currentRole } 
+            });
+            if (res.ok) {
+                showMsg("Move command accepted", "success");
+                refreshDatabaseLogs(); 
+            }
             else showMsg("Move rejected by robot", "danger");
         } catch (e) { showMsg("API Unreachable", "danger"); }
+    }
+
+    // --- NEW: FETCH LOGS FROM SQL SERVER ---
+    async function refreshDatabaseLogs() {
+        try {
+            const response = await fetch('/api/Robot/logs');
+            if (response.ok) {
+                const logs = await response.json();
+                const logBox = document.getElementById("logBox");
+                logBox.innerHTML = ""; // Clear current UI logs
+                logs.forEach(l => {
+                    const time = new Date(l.timestamp).toLocaleTimeString();
+                    logBox.innerHTML += `<div>[${time}] <span class="badge bg-info">${l.role}</span> ${l.action}</div>`;
+                });
+            }
+        } catch (error) { console.error("Log fetch error:", error); }
     }
 
     async function updateSensors() {
@@ -164,7 +185,6 @@
         ws.onopen = () => { 
             document.getElementById("telemetryStatus").className = "badge bg-success";
             document.getElementById("telemetryStatus").innerText = "Connected";
-            log("Telemetry Online");
         };
         ws.onmessage = (e) => {
             const d = JSON.parse(e.data);
@@ -188,12 +208,17 @@
         const isViewer = currentRole === "Viewer";
         document.getElementById("moveBtn").disabled = isViewer;
         document.querySelectorAll(".btn-direction").forEach(b => b.disabled = isViewer);
-        log(`Role: ${currentRole}`);
     }
 
-    function emergencyStop() { log("EMERGENCY STOP"); showMsg("Stop Sent", "danger"); }
+    function emergencyStop() { showMsg("Stop Sent", "danger"); }
 
-    connectWS(); fetchMap(); setInterval(updateSensors, 2000); changeRole();
+    // Initial Load
+    connectWS(); 
+    fetchMap(); 
+    refreshDatabaseLogs();
+    setInterval(updateSensors, 2000); 
+    setInterval(refreshDatabaseLogs, 5000); // Auto-refresh logs every 5 seconds
+    changeRole();
 </script>
 </body>
 </html>
