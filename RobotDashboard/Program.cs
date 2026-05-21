@@ -16,7 +16,7 @@ builder.Services.AddHttpClient<IRobotClient, RobotClient>((sp, client) =>
 
 builder.Services.AddScoped<IMissionStatsService, MissionStatsService>();
 
-// ✅ NUCLEAR FIX: Only add SQL if we aren't in a test environment
+
 if (builder.Environment.EnvironmentName != "Testing")
 {
     builder.Services.AddDbContext<RobotDashboardContext>(options =>
@@ -35,7 +35,7 @@ app.UseStaticFiles();
 app.UseAuthorization();
 app.MapControllers();
 
-// ✅ Only migrate if we are actually using SQL Server
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<RobotDashboardContext>();

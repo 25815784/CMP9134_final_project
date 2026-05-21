@@ -1,7 +1,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.Hosting; // ✅ Added this
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RobotDashboard.Data;
@@ -20,7 +20,7 @@ namespace RobotDashboard.Tests
         {
             _client = factory.WithWebHostBuilder(builder =>
             {
-                // ✅ This tells Program.cs to skip the real SQL Server setup
+                
                 builder.UseEnvironment("Testing");
 
                 builder.ConfigureServices(services =>
@@ -43,7 +43,7 @@ namespace RobotDashboard.Tests
         }
     }
 
-    // ✅ Fake Robot Client for Integration Testing
+    
     public class FakeRobotClient : IRobotClient
     {
         public Task<RobotStatusDto> GetStatusAsync()

@@ -25,7 +25,7 @@ namespace RobotDashboard.Tests
 
             _context = new RobotDashboardContext(options);
 
-            // Pass both the mock client AND the test database to the controller
+            // Pass both the mock client and the test database to the controller
             _controller = new RobotController(_mockRobotClient.Object, _context);
         }
 
