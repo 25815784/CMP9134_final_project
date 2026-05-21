@@ -33,6 +33,10 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+// Enable static files such as dashboard.html from wwwroot
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseAuthorization();
 app.MapControllers();
 
