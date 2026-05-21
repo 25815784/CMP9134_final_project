@@ -106,3 +106,5 @@ C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Master
 C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Masters)\CMP9134\CMP9134_final_project\RobotDashboard\obj\Debug\net9.0\RobotDashboard.pdb
 C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Masters)\CMP9134\CMP9134_final_project\RobotDashboard\obj\Debug\net9.0\RobotDashboard.genruntimeconfig.cache
 C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Masters)\CMP9134\CMP9134_final_project\RobotDashboard\obj\Debug\net9.0\ref\RobotDashboard.dll
+C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Masters)\CMP9134\CMP9134_final_project\RobotDashboard\bin\Debug\net9.0\RobotDashboard.staticwebassets.runtime.json
+C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Masters)\CMP9134\CMP9134_final_project\RobotDashboard\obj\Debug\net9.0\compressed\s1yn688zd7-xdmgf9qdhy.gz

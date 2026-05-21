@@ -8,5 +8,7 @@ namespace RobotDashboard.Services
         Task<RobotStatusDto> GetStatusAsync();
         Task<bool> MoveAsync(int x, int y);
         Task<bool> ResetAsync();
+        Task<RobotMapDto> GetMapAsync();
+        Task<RobotSensorDto> GetSensorAsync();
     }
 }

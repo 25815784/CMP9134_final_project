@@ -1266,3 +1266,4 @@ C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Master
 C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Masters)\CMP9134\CMP9134_final_project\RobotDashboard.Tests\obj\Debug\net9.0\RobotDashboard.Tests.pdb
 C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Masters)\CMP9134\CMP9134_final_project\RobotDashboard.Tests\obj\Debug\net9.0\RobotDashboard.Tests.genruntimeconfig.cache
 C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Masters)\CMP9134\CMP9134_final_project\RobotDashboard.Tests\obj\Debug\net9.0\ref\RobotDashboard.Tests.dll
+C:\Users\Christopher Oladipo\Documents\University Work\4th Year (Game Dev Masters)\CMP9134\CMP9134_final_project\RobotDashboard.Tests\bin\Debug\net9.0\RobotDashboard.staticwebassets.runtime.json

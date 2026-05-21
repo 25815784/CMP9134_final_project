@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RobotDashboard.DTOs;
 using RobotDashboard.Services;
 
 namespace RobotDashboard.Controllers
@@ -27,7 +28,9 @@ namespace RobotDashboard.Controllers
             var result = await _robotClient.MoveAsync(x, y);
 
             if (!result)
+            {
                 return BadRequest("Move failed");
+            }
 
             return Ok("Move successful");
         }
@@ -38,9 +41,25 @@ namespace RobotDashboard.Controllers
             var result = await _robotClient.ResetAsync();
 
             if (!result)
+            {
                 return BadRequest("Reset failed");
+            }
 
             return Ok("Robot reset successful");
+        }
+
+        [HttpGet("map")]
+        public async Task<ActionResult<RobotMapDto>> GetMap()
+        {
+            var map = await _robotClient.GetMapAsync();
+            return Ok(map);
+        }
+
+        [HttpGet("sensor")]
+        public async Task<ActionResult<RobotSensorDto>> GetSensor()
+        {
+            var sensor = await _robotClient.GetSensorAsync();
+            return Ok(sensor);
         }
     }
 }
