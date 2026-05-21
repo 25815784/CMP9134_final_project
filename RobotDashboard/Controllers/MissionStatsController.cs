@@ -10,7 +10,7 @@ namespace RobotDashboard.Controllers
     {
         private readonly IMissionStatsService _missionStatsService;
 
-        // Dependency Injection of our new service
+
         public MissionStatsController(IMissionStatsService missionStatsService)
         {
             _missionStatsService = missionStatsService;
@@ -19,8 +19,7 @@ namespace RobotDashboard.Controllers
         [HttpPost("calculate")]
         public ActionResult<MissionStatsResponseDto> Calculate([FromBody] MissionStatsRequestDto request)
         {
-            // The [ApiController] attribute automatically handles 400 Bad Request 
-            // if the DTO validation rules (from Step 1) fail.
+
 
             try
             {

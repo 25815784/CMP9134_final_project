@@ -30,7 +30,7 @@ namespace RobotDashboard.Tests
             };
         }
 
-        // ✅ 1 — Successful GetStatus
+
         [Fact]
         public async Task GetStatusAsync_ReturnsDeserializedRobotStatus()
         {
@@ -67,7 +67,7 @@ namespace RobotDashboard.Tests
             Assert.Equal("Active", result.Status);
         }
 
-        // ✅ 2 — Move Success
+
         [Fact]
         public async Task MoveAsync_ReturnsTrue_WhenResponseIsSuccess()
         {
@@ -80,7 +80,7 @@ namespace RobotDashboard.Tests
             Assert.True(result);
         }
 
-        // ✅ 3 — Reset Success
+
         [Fact]
         public async Task ResetAsync_ReturnsTrue_WhenResponseIsSuccess()
         {
@@ -93,7 +93,7 @@ namespace RobotDashboard.Tests
             Assert.True(result);
         }
 
-        // ✅ 4 — Move Failure (500)
+
         [Fact]
         public async Task MoveAsync_ReturnsFalse_WhenResponseFails()
         {
@@ -106,7 +106,7 @@ namespace RobotDashboard.Tests
             Assert.False(result);
         }
 
-        // ✅ 5 — Reset Failure (500)
+
         [Fact]
         public async Task ResetAsync_ReturnsFalse_WhenResponseFails()
         {
@@ -119,7 +119,7 @@ namespace RobotDashboard.Tests
             Assert.False(result);
         }
 
-        // ✅ 6 — GetStatus throws on failure
+
         [Fact]
         public async Task GetStatusAsync_Throws_WhenResponseFails()
         {
@@ -131,7 +131,7 @@ namespace RobotDashboard.Tests
                 robotClient.GetStatusAsync());
         }
 
-        // ✅ 7 — Boundary Coordinates
+
         [Fact]
         public async Task GetStatusAsync_HandlesBoundaryCoordinates()
         {

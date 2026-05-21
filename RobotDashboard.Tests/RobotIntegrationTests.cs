@@ -42,11 +42,7 @@ namespace RobotDashboard.Tests
         {
             var fakeStatus = new RobotStatusDto
             {
-                // Fill properties if required
-                // Example:
-                // X = 0,
-                // Y = 0,
-                // Direction = "North"
+
             };
 
             return Task.FromResult(fakeStatus);
