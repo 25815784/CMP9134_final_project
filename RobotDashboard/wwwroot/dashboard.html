@@ -12,10 +12,10 @@
         h4 { color: #ffffff; font-weight: 600; }
         .btn-direction { width: 80px; height: 80px; font-size: 1.5rem; margin: 5px; }
         .btn-primary { background-color: #2d6cdf; border: none; }
+        .btn-info { background-color: #0dcaf0; border: none; }
         .btn-success { background-color: #2e8b57; border: none; }
         .btn-danger { background-color: #c0392b; border: none; }
-        .log-box { height: 150px; overflow-y: auto; background-color: #20262e; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; }
-        .badge { font-size: 0.9rem; }
+        .log-box { height: 180px; overflow-y: auto; background-color: #20262e; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -34,44 +34,40 @@
 
 <main class="container mt-4">
     <div class="row">
-        <!-- ROBOT STATUS -->
         <div class="col-md-4">
             <div class="card p-3">
                 <h4>Robot Status</h4>
                 <p><strong>Battery:</strong> <span id="battery">--</span></p>
                 <p><strong>Status:</strong> <span id="status" class="badge bg-secondary">Unknown</span></p>
                 <p><strong>Position:</strong> X: <span id="posX">0</span>, Y: <span id="posY">0</span></p>
-                <p><strong>Direction:</strong> <span id="direction">North</span></p>
                 <p><strong>Telemetry:</strong> <span id="telemetryStatus" class="badge bg-danger">Disconnected</span></p>
             </div>
         </div>
 
-        <!-- MOVEMENT CONTROLS -->
         <div class="col-md-8">
             <div class="card p-3 text-center">
                 <h4>Move Robot</h4>
                 <div>
-                    <button id="moveUp" class="btn btn-primary btn-direction" aria-label="North" onclick="selectDir('up')">↑</button>
+                    <button id="moveUp" class="btn btn-primary btn-direction" onclick="selectDir('up')">↑</button>
                 </div>
                 <div>
-                    <button id="moveLeft" class="btn btn-primary btn-direction" aria-label="West" onclick="selectDir('left')">←</button>
-                    <button id="moveDown" class="btn btn-primary btn-direction" aria-label="South" onclick="selectDir('down')">↓</button>
-                    <button id="moveRight" class="btn btn-primary btn-direction" aria-label="East" onclick="selectDir('right')">→</button>
+                    <button id="moveLeft" class="btn btn-primary btn-direction" onclick="selectDir('left')">←</button>
+                    <button id="moveDown" class="btn btn-primary btn-direction" onclick="selectDir('down')">↓</button>
+                    <button id="moveRight" class="btn btn-primary btn-direction" onclick="selectDir('right')">→</button>
                 </div>
                 <div class="mt-3">
                     <button id="moveBtn" class="btn btn-success px-4" onclick="confirmMove()">Confirm Move</button>
                     <button class="btn btn-danger ms-2" onclick="emergencyStop()">Emergency Stop</button>
                 </div>
-                <div id="feedback" class="mt-3" aria-live="polite"></div>
+                <div id="feedback" class="mt-3"></div>
             </div>
         </div>
     </div>
 
-    <!-- SENSORS & MAP -->
     <div class="row">
         <div class="col-md-6">
             <div class="card p-3">
-                <h4>Proximity Sensors</h4>
+                <h4>Sensors</h4>
                 <div class="row text-center">
                     <div class="col-12">N: <span id="sN">0</span></div>
                     <div class="col-6">W: <span id="sW">0</span></div>
@@ -89,11 +85,10 @@
         </div>
     </div>
 
-    <!-- LOG -->
     <div class="row">
         <div class="col-12">
             <div class="card p-3">
-                <h4>Audit Log</h4>
+                <h4>Mission Audit Log (SQL Database)</h4>
                 <div id="logBox" class="log-box"></div>
             </div>
         </div>
@@ -104,10 +99,6 @@
     let x = 0, y = 0, selectedDir = null, currentRole = "Commander";
     let ws = null;
 
-    function log(msg) {
-
-    }
-
     function showMsg(msg, type) {
         document.getElementById("feedback").innerHTML = `<div class="alert alert-${type} py-2">${msg}</div>`;
     }
@@ -115,8 +106,8 @@
     function selectDir(dir) {
         selectedDir = dir;
         document.querySelectorAll(".btn-direction").forEach(b => b.classList.replace("btn-info", "btn-primary"));
-        document.getElementById(`move${dir.charAt(0).toUpperCase() + dir.slice(1)}`).classList.replace("btn-primary", "btn-info");
-        showMsg(`Selected: ${dir.toUpperCase()}`, "info");
+        const id = `move${dir.charAt(0).toUpperCase() + dir.slice(1)}`;
+        document.getElementById(id).classList.replace("btn-primary", "btn-info");
     }
 
     async function confirmMove() {
@@ -128,33 +119,26 @@
         if (tx < 0 || tx > 20 || ty < 0 || ty > 20) return showMsg("Out of bounds!", "danger");
 
         try {
-            
             const res = await fetch(`/api/Robot/move?x=${tx}&y=${ty}`, { 
                 method: 'POST',
-                headers: { 'X-User-Role': currentRole } 
+                headers: { 'X-User-Role': currentRole }
             });
             if (res.ok) {
-                showMsg("Move command accepted", "success");
-                refreshDatabaseLogs(); 
+                showMsg("Move accepted", "success");
+                setTimeout(refreshLogs, 500); // Refresh logs from DB
             }
-            else showMsg("Move rejected by robot", "danger");
-        } catch (e) { showMsg("API Unreachable", "danger"); }
+        } catch (e) { showMsg("API Error", "danger"); }
     }
 
-    // --- NEW: FETCH LOGS FROM SQL SERVER ---
-    async function refreshDatabaseLogs() {
+    async function refreshLogs() {
         try {
-            const response = await fetch('/api/Robot/logs');
-            if (response.ok) {
-                const logs = await response.json();
-                const logBox = document.getElementById("logBox");
-                logBox.innerHTML = ""; // Clear current UI logs
-                logs.forEach(l => {
-                    const time = new Date(l.timestamp).toLocaleTimeString();
-                    logBox.innerHTML += `<div>[${time}] <span class="badge bg-info">${l.role}</span> ${l.action}</div>`;
-                });
+            const res = await fetch('/api/Robot/logs');
+            if (res.ok) {
+                const logs = await res.json();
+                const box = document.getElementById("logBox");
+                box.innerHTML = logs.map(l => `<div>[${new Date(l.timestamp).toLocaleTimeString()}] <span class="badge bg-info">${l.role}</span> ${l.action}</div>`).join('');
             }
-        } catch (error) { console.error("Log fetch error:", error); }
+        } catch (e) {}
     }
 
     async function updateSensors() {
@@ -212,12 +196,9 @@
 
     function emergencyStop() { showMsg("Stop Sent", "danger"); }
 
-    // Initial Load
-    connectWS(); 
-    fetchMap(); 
-    refreshDatabaseLogs();
+    connectWS(); fetchMap(); refreshLogs(); 
     setInterval(updateSensors, 2000); 
-    setInterval(refreshDatabaseLogs, 5000); // Auto-refresh logs every 5 seconds
+    setInterval(refreshLogs, 5000); 
     changeRole();
 </script>
 </body>

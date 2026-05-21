@@ -5632,11 +5632,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard.Tests\\RobotDashboard.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard.Tests\\RobotDashboard.Tests.csproj",
       "projectName": "RobotDashboard.Tests",
-      "projectPath": "c:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard.Tests\\RobotDashboard.Tests.csproj",
+      "projectPath": "C:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard.Tests\\RobotDashboard.Tests.csproj",
       "packagesPath": "C:\\Users\\Christopher Oladipo\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard.Tests\\obj\\",
+      "outputPath": "C:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -5658,8 +5658,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "c:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard\\RobotDashboard.csproj": {
-              "projectPath": "c:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard\\RobotDashboard.csproj"
+            "C:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard\\RobotDashboard.csproj": {
+              "projectPath": "C:\\Users\\Christopher Oladipo\\Documents\\University Work\\4th Year (Game Dev Masters)\\CMP9134\\CMP9134_final_project\\RobotDashboard\\RobotDashboard.csproj"
             }
           }
         }

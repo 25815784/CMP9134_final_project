@@ -22,7 +22,7 @@ namespace RobotDashboard.Tests
             var options = new DbContextOptionsBuilder<RobotDashboardContext>()
                 .UseInMemoryDatabase(databaseName: "TestLogDb")
                 .Options;
-            
+
             _context = new RobotDashboardContext(options);
 
             // Pass both the mock client AND the test database to the controller
