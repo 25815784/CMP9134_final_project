@@ -22,68 +22,123 @@ namespace RobotDashboard.Controllers
         [HttpGet("status")]
         public async Task<IActionResult> GetStatus()
         {
-            var status = await _robotClient.GetStatusAsync();
-            return Ok(status);
+            try
+            {
+                var status = await _robotClient.GetStatusAsync();
+                return Ok(status);
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(503, $"Robot status unavailable: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Unexpected error retrieving status: {ex.Message}");
+            }
         }
 
         [HttpPost("move")]
         public async Task<IActionResult> Move(int x, int y, [FromHeader(Name = "X-User-Role")] string role = "Commander")
         {
-            var result = await _robotClient.MoveAsync(x, y);
-
-            if (!result)
+            try
             {
-                return BadRequest("Move failed");
+                var result = await _robotClient.MoveAsync(x, y);
+
+                if (!result)
+                {
+                    return BadRequest("Move failed");
+                }
+
+                var log = new AuditLog
+                {
+                    Role = role,
+                    Action = $"Moved to ({x}, {y})",
+                    Timestamp = DateTime.UtcNow
+                };
+
+                _context.AuditLogs.Add(log);
+                await _context.SaveChangesAsync();
+
+                return Ok("Move successful");
             }
-
-            var log = new AuditLog
+            catch (HttpRequestException ex)
             {
-                Role = role,
-                Action = $"Moved to ({x}, {y})",
-                Timestamp = DateTime.UtcNow
-            };
-
-            _context.AuditLogs.Add(log);
-            await _context.SaveChangesAsync();
-
-            return Ok("Move successful");
+                return StatusCode(503, $"Robot move unavailable: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Unexpected error during move: {ex.Message}");
+            }
         }
 
         [HttpPost("reset")]
         public async Task<IActionResult> Reset([FromHeader(Name = "X-User-Role")] string role = "Commander")
         {
-            var result = await _robotClient.ResetAsync();
-
-            if (!result)
+            try
             {
-                return BadRequest("Reset failed");
+                var result = await _robotClient.ResetAsync();
+
+                if (!result)
+                {
+                    return BadRequest("Reset failed");
+                }
+
+                var log = new AuditLog
+                {
+                    Role = role,
+                    Action = "Robot reset",
+                    Timestamp = DateTime.UtcNow
+                };
+
+                _context.AuditLogs.Add(log);
+                await _context.SaveChangesAsync();
+
+                return Ok("Robot reset successful");
             }
-
-            var log = new AuditLog
+            catch (HttpRequestException ex)
             {
-                Role = role,
-                Action = "Robot reset",
-                Timestamp = DateTime.UtcNow
-            };
-
-            _context.AuditLogs.Add(log);
-            await _context.SaveChangesAsync();
-
-            return Ok("Robot reset successful");
+                return StatusCode(503, $"Robot reset unavailable: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Unexpected error during reset: {ex.Message}");
+            }
         }
 
         [HttpGet("map")]
         public async Task<ActionResult<RobotMapDto>> GetMap()
         {
-            var map = await _robotClient.GetMapAsync();
-            return Ok(map);
+            try
+            {
+                var map = await _robotClient.GetMapAsync();
+                return Ok(map);
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(503, $"Robot map unavailable: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Unexpected error retrieving map: {ex.Message}");
+            }
         }
 
         [HttpGet("sensor")]
         public async Task<ActionResult<RobotSensorDto>> GetSensor()
         {
-            var sensor = await _robotClient.GetSensorAsync();
-            return Ok(sensor);
+            try
+            {
+                var sensor = await _robotClient.GetSensorAsync();
+                return Ok(sensor);
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(503, $"Robot sensors unavailable: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Unexpected error retrieving sensor data: {ex.Message}");
+            }
         }
 
         [HttpGet("logs")]
