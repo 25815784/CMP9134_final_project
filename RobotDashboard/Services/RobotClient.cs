@@ -9,7 +9,7 @@ namespace RobotDashboard.Services
         private readonly HttpClient _httpClient;
         private readonly ILogger<RobotClient>? _logger;
 
-        
+
         public RobotClient(HttpClient httpClient, ILogger<RobotClient>? logger = null)
         {
             _httpClient = httpClient;
@@ -54,7 +54,7 @@ namespace RobotDashboard.Services
                 try
                 {
                     var result = await action();
-                    if (result == null) continue; 
+                    if (result == null) continue;
                     return result;
                 }
                 catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
